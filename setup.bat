@@ -1,23 +1,28 @@
 @echo off
-echo 🚀 Starting AI Task Master Setup...
+echo 🚀 Starting AI Task Master Setup (Node.js Version)...
 
 :: 1. Setup Backend
-echo 🐍 Setting up Python Backend...
+echo 🟢 Setting up Node.js Backend...
 cd backend
-python -m venv venv
-call venv\Scripts\activate
-pip install fastapi uvicorn playwright pytesseract pillow openai python-dotenv
-python -m playwright install chromium
+if not exist package.json (
+    echo ❌ Error: package.json not found in backend folder!
+    pause
+    exit
+)
+call npm install
+call npx playwright install chromium
 cd ..
 
 :: 2. Setup Frontend
-echo ⚡ Setting up Vite Frontend...
-cd frontend
-npm install
+echo 🔵 Setting up Vite Frontend...
+cd vite-project
+call npm install
 cd ..
 
 echo ✅ Setup Complete! 
+echo --------------------------------------------------
 echo To start the project:
-echo 1. In Terminal 1: cd backend ^&^& venv\Scripts\activate ^&^& uvicorn main:app --reload
-echo 2. In Terminal 2: cd frontend ^&^& npm run dev
+echo 1. Terminal 1 (Backend): cd backend ^&^& node server.js
+echo 2. Terminal 2 (Frontend): cd vite-project ^&^& npm run dev
+echo --------------------------------------------------
 pause
